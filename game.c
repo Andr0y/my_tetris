@@ -92,17 +92,8 @@ char **disp_map(char **map, WINDOW *game)
 {
   int i;
   int j;
-  int k;
 
   i = 1;
-  k = 1;
-  while (map[k + 2] != NULL)
-  {
-    map = set_tetrimino(map, k, "*\n*\n**");
-    if (map[k + 4] != NULL)
-      map = erase_tetrimino(map, k, "*\n*\n**");
-    k++;
-  }
   while (map[i])
     {
       j = 1;
@@ -114,4 +105,20 @@ char **disp_map(char **map, WINDOW *game)
       i++;
     }
   return (map);
+}
+
+void ii(char **map, WINDOW *game)
+{
+  int k;
+
+  k = 1;
+  while (map[k + 2] != NULL)
+  {
+    map = disp_map(map, game);
+    map = set_tetrimino(map, k, "*\n*\n**");
+    printf("%i\n", k);
+    if (map[k + 4] != NULL)
+      map = erase_tetrimino(map, k, "*\n*\n**");
+    k++;
+  }
 }

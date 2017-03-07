@@ -26,8 +26,9 @@ typedef struct t_window
 
 long    my_getnbr(char *);
 int     my_strlen(char *);
-void refresh_loop(s_window);
+void refresh_loop(s_window, char **);
 void disp_tetrimino(char **, WINDOW *, char *);
+void ii(char **, WINDOW *);
 char    *my_strcat(char *, char *);
 char **malloc_map2d(int, int, char **);
 char **game_map(char **, char **);

@@ -59,7 +59,7 @@ WINDOW *box_next(char **av)
   return (win);
 }
 
-void refresh_loop(s_window win)
+void refresh_loop(s_window win, char **map)
 {
   clear();
   while (1)
@@ -70,6 +70,7 @@ void refresh_loop(s_window win)
       mvwprintw(win.level, 3, 4, "1");
       mvwprintw(win.current, 1, 1, "HOLD");
       mvwprintw(win.next, 1, 1, "NEXT");
+      ii(map, win.game);
       wrefresh(win.level);
       wrefresh(win.game);
       wrefresh(win.current);

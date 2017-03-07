@@ -30,7 +30,6 @@ int main (int ac, char **av)
   win.current = box_current(av);
   win.next = box_next(av);
   map = game_map(map, av);
-  map = disp_map(map, win.game);
-  refresh_loop(win);
+  refresh_loop(win, map);
   return (0);
 }
