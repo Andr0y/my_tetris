@@ -48,13 +48,12 @@ char **game_map(char **tetris, char **av)
   return (tetris);
 }
 
-char **set_tetrimino(char **map, int k, char *tetrimino)
+void set_tetrimino(char **map, int k, int i, char *tetrimino)
 {
-  int i;
   int j;
 
-  i = my_strlen(map[1]) / 2;
   j = 0;
+  //i = my_strlen(map[k]) / 2;
   while (tetrimino[j])
   {
     if (tetrimino[j] == '\n')
@@ -65,16 +64,14 @@ char **set_tetrimino(char **map, int k, char *tetrimino)
       i++;
     j++;
   }
-  return (map);
 }
 
-char **erase_tetrimino(char **map, int k, char *tetrimino)
+void erase_tetrimino(char **map, int k, int i, char *tetrimino)
 {
-  int i;
   int j;
 
-  i = my_strlen(map[1]) / 2;
   j = 0;
+  //i = my_strlen(map[k]) / 2;
   while (tetrimino[j])
   {
     if (tetrimino[j] == '\n')
@@ -85,7 +82,6 @@ char **erase_tetrimino(char **map, int k, char *tetrimino)
       i++;
     j++;
   }
-  return (map);
 }
 
 char **disp_map(char **map, WINDOW *game)
@@ -107,18 +103,47 @@ char **disp_map(char **map, WINDOW *game)
   return (map);
 }
 
-void ii(char **map, WINDOW *game)
+int check_collision(char **map, char *tetrimino, int k, const int pos)
 {
-  int k;
+  int rows;
+  int cols;
+  int i;
 
-  k = 1;
-  while (map[k + 2] != NULL)
+  rows = tetrimino[2] - 48;
+  cols = tetrimino[0] - 48;
+  i = pos;
+  while (i < pos + cols)
   {
-    map = disp_map(map, game);
-    map = set_tetrimino(map, k, "*\n*\n**");
-    printf("%i\n", k);
-    if (map[k + 4] != NULL)
-      map = erase_tetrimino(map, k, "*\n*\n**");
-    k++;
+    if (map[k + (rows - 1)][i] != ' ')
+      return (1);
+    i++;
   }
+  return (0);
+}
+int play_tetrimino(char **map, s_window win, int k)
+{
+  char *tetrimino;
+  static int pos = 40;
+
+  timeout(10);
+  char a = getch();
+  if (a == 'q')
+    pos--;
+  else if (a == 'd')
+    pos++;
+  tetrimino = "2 3 1*\n*\n**";
+  if ((check_collision(map, tetrimino, k, pos)) == 0)
+    set_tetrimino(map, k, pos, tetrimino);
+  usleep(50000);
+  map = disp_map(map, win.game);
+  if (check_collision(map, tetrimino, k + 1, pos) == 0)
+    erase_tetrimino(map, k, pos, tetrimino);
+  k++;
+  if (map[k + (tetrimino[2] - 48)] == NULL)
+  {
+    k = 1;
+    pos = 40;
+    //my_strlen(map[k]) / 2
+  }
+  return (k);
 }

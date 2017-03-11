@@ -62,15 +62,17 @@ WINDOW *box_next(char **av)
 void refresh_loop(s_window win, char **map)
 {
   clear();
+  int k;
+
+  k = 1;
   while (1)
     {
       refresh();
-      mvprintw(COLS / 2, 1, "TETRIS");
       mvwprintw(win.level, 1, 1, "LEVEL");
       mvwprintw(win.level, 3, 4, "1");
       mvwprintw(win.current, 1, 1, "HOLD");
       mvwprintw(win.next, 1, 1, "NEXT");
-      ii(map, win.game);
+      k = play_tetrimino(map, win, k);
       wrefresh(win.level);
       wrefresh(win.game);
       wrefresh(win.current);

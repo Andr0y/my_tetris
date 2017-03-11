@@ -26,9 +26,11 @@ typedef struct t_window
 
 long    my_getnbr(char *);
 int     my_strlen(char *);
+int play_tetrimino(char **, s_window, int);
+void set_tetrimino(char **, int, int, char *);
+void erase_tetrimino(char **, int, int, char *);
 void refresh_loop(s_window, char **);
 void disp_tetrimino(char **, WINDOW *, char *);
-void ii(char **, WINDOW *);
 char    *my_strcat(char *, char *);
 char **malloc_map2d(int, int, char **);
 char **game_map(char **, char **);
