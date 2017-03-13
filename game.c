@@ -53,7 +53,6 @@ void set_tetrimino(char **map, int k, int i, char *tetrimino)
   int j;
 
   j = 0;
-  //i = my_strlen(map[k]) / 2;
   while (tetrimino[j])
   {
     if (tetrimino[j] == '\n')
@@ -71,7 +70,6 @@ void erase_tetrimino(char **map, int k, int i, char *tetrimino)
   int j;
 
   j = 0;
-  //i = my_strlen(map[k]) / 2;
   while (tetrimino[j])
   {
     if (tetrimino[j] == '\n')
@@ -120,20 +118,26 @@ int check_collision(char **map, char *tetrimino, int k, const int pos)
   }
   return (0);
 }
+
 int play_tetrimino(char **map, s_window win, int k)
 {
   char *tetrimino;
-  static int pos = 40;
+  static int pos = 30;
 
-  timeout(10);
+  tetrimino = "4 3 1****\n*\n*";
+  timeout(100);
   char a = getch();
-  if (a == 'q')
+  if (a == 'q' && map[k + 1][pos - 2] == ' ')
     pos--;
-  else if (a == 'd')
+  else if (a == 'd' && map[k + 1][pos + (tetrimino[0] - 48)] == ' ')
     pos++;
-  tetrimino = "2 3 1*\n*\n**";
   if ((check_collision(map, tetrimino, k, pos)) == 0)
     set_tetrimino(map, k, pos, tetrimino);
+  else
+  {
+    pos = 30;
+    return (1);
+  }
   usleep(50000);
   map = disp_map(map, win.game);
   if (check_collision(map, tetrimino, k + 1, pos) == 0)
@@ -142,8 +146,7 @@ int play_tetrimino(char **map, s_window win, int k)
   if (map[k + (tetrimino[2] - 48)] == NULL)
   {
     k = 1;
-    pos = 40;
-    //my_strlen(map[k]) / 2
+    pos = 30;
   }
   return (k);
 }

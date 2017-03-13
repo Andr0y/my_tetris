@@ -17,11 +17,12 @@ int main (int ac, char **av)
 
   if (ac == 1)
     {
-      av[1] = "65";
-      av[2] = "80";
+      av[1] = "50";
+      av[2] = "60";
     }
   initscr();
   start_color();
+  noecho();
   curs_set(0);
   init_pair(1, COLOR_BLACK, COLOR_CYAN);
   init_pair(2, COLOR_BLUE, COLOR_BLUE);
